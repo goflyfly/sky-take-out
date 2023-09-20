@@ -14,8 +14,10 @@ import com.sky.vo.EmployeeLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.yaml.snakeyaml.events.Event;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -94,5 +96,38 @@ public class EmployeeController {
 
          return Result.success(pageResult);
 
+    }
+
+    /**
+     * 修改员工状态
+     * */
+    @ApiOperation("修改员工状态")
+    @PostMapping("/status/{status}")
+    public Result updateStatus(@PathVariable Integer status,long id){
+        employeeService.updateStatus(status,id);
+
+        return Result.success();
+    }
+
+    /**
+     * 根据id查找员工
+     * */
+    @ApiOperation("根据id查找员工")
+    @GetMapping("/{id}")
+    public Result<Employee> queryById(@PathVariable Long id){
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+    /***
+     *
+     * 修改员工信息
+     */
+    @ApiOperation("修改员工信息")
+    @PutMapping
+    public Result updateEmployee(@RequestBody EmployeeDTO employeeDTO){
+
+            employeeService.updateEmployee(employeeDTO);
+        return Result.success();
     }
 }
